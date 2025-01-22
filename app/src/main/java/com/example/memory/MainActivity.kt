@@ -70,6 +70,7 @@ class MainActivity : ComponentActivity() {
         sayiEndButton.setOnClickListener {
             val cleanedText = sayiInput.text.toString().filter { it != ' ' && it != '\n' }
             cleanedText.forEach { char -> userAnswer.add(char.toString()) }
+            sayiInput.text.clear()
             showStartPage()
         }
     }

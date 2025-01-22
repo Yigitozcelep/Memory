@@ -16,11 +16,10 @@ import android.widget.EditText
 
 
 class MainActivity : ComponentActivity() {
-    private var userAnswer              : MutableList<Int> = mutableListOf()
-    private var expectedAnswer          : MutableList<Int> = mutableListOf()
+    private var userAnswer              : MutableList<Any> = mutableListOf()
+    private var expectedAnswer          : MutableList<Any> = mutableListOf()
     private var startTime               : Long = 0L
     private var resultTime              : Long = 0L
-    private var correctCount            : Long = 0L
     private val handler                 : Handler = Handler(Looper.getMainLooper())
 
     private lateinit var kartNextButton : Button
@@ -51,7 +50,6 @@ class MainActivity : ComponentActivity() {
         R.drawable.spades_7, R.drawable.spades_8, R.drawable.spades_9,
         R.drawable.spades_10, R.drawable.spades_j, R.drawable.spades_q, R.drawable.spades_k)
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initializeVariables()
@@ -94,7 +92,7 @@ class MainActivity : ComponentActivity() {
         val minute = timeInput.text.toString().toIntOrNull() ?: return
         performCommonsOfPages()
         sayiNextButton.visibility = View.VISIBLE
-
+        
         handler.postDelayed({
 
 
@@ -146,14 +144,11 @@ class MainActivity : ComponentActivity() {
                 userAnswer.add(cardResource)
                 imageView.setBackgroundColor(Color.GREEN)
             }
-            if (userAnswer.size == 52){
-                correctCount = getCorrectCount(expectedAnswer, userAnswer)
-                showStartPage()
-            }
+            if (userAnswer.size == 52) showStartPage()
         }
     }
 
-    private fun getCorrectCount(currentList: MutableList<Int>, answerList: MutableList<Int>): Long {
+    private fun getCorrectCount(currentList: MutableList<Any>, answerList: MutableList<Any>): Long {
         val minSize = minOf(currentList.size, answerList.size)
         var count = 0L
         for (i in 0 until minSize) {
@@ -167,7 +162,7 @@ class MainActivity : ComponentActivity() {
         expectedAnswer = defaultOrderCardsImgs.toMutableList()
         expectedAnswer.shuffle()
         kartNextButton.visibility = View.VISIBLE
-        showCards(expectedAnswer)
+        showCards(expectedAnswer as List<Int>)
     }
 
     private fun hidePages() {
@@ -187,6 +182,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun showCorrect() {
+        val correctCount = getCorrectCount(expectedAnswer, userAnswer)
         totalCorText.visibility = View.VISIBLE
         totalCorText.text = "Total Correct: $correctCount"
     }
@@ -197,9 +193,9 @@ class MainActivity : ComponentActivity() {
     }
     private fun showStartPage() {
         showSize()
-        hidePages()
-        showTime()
         showCorrect()
+        showTime()
+        hidePages()
         kartButton.visibility = View.VISIBLE
         sayiButton.visibility = View.VISIBLE
         timeInput.visibility  = View.VISIBLE

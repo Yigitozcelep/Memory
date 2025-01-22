@@ -26,9 +26,11 @@ class MainActivity : ComponentActivity() {
     private lateinit var sayiNextButton : Button
     private lateinit var kartButton     : Button
     private lateinit var sayiButton     : Button
+    private lateinit var sayiEndButton  : Button
     private lateinit var endTimeText    : TextView
     private lateinit var totalCorText   : TextView
     private lateinit var corSizeText    : TextView
+    private lateinit var sayiInput      : EditText
     private lateinit var timeInput      : EditText
     private lateinit var gridLayout     : GridLayout
 
@@ -65,6 +67,11 @@ class MainActivity : ComponentActivity() {
             showOrderCardsPage()
         }
         sayiNextButton.setOnClickListener { showNumbers() }
+        sayiEndButton.setOnClickListener {
+            val cleanedText = sayiInput.text.toString().filter { it != ' ' && it != '\n' }
+            cleanedText.forEach { char -> userAnswer.add(char.toString()) }
+            showStartPage()
+        }
     }
     private fun generateRandomStrings(): List<String> {
         return List(52) {
@@ -76,7 +83,7 @@ class MainActivity : ComponentActivity() {
         gridLayout.removeAllViews()
         val numbers = generateRandomStrings()
         for (number in numbers) {
-            expectedAnswer.add(number)
+            number.forEach { char -> expectedAnswer.add(char.toString()) }
             val textView = TextView(this).apply {
                 textSize = 22f
                 text = number
@@ -99,8 +106,11 @@ class MainActivity : ComponentActivity() {
         sayiNextButton.visibility = View.VISIBLE
         showNumbers()
         handler.postDelayed({
-
-
+            gridLayout.removeAllViews()
+            gridLayout.visibility     = View.GONE
+            sayiNextButton.visibility = View.GONE
+            sayiEndButton.visibility  = View.VISIBLE
+            sayiInput.visibility      = View.VISIBLE
         }, (minute * 60 * 1000).toLong())
     }
 
@@ -170,9 +180,10 @@ class MainActivity : ComponentActivity() {
     private fun hidePages() {
         userAnswer.clear()
         expectedAnswer.clear()
-        gridLayout.visibility  = View.GONE
-        gridLayout.visibility  = View.GONE
-        sayiNextButton.visibility = View.GONE
+        gridLayout.visibility    = View.GONE
+        gridLayout.visibility    = View.GONE
+        sayiEndButton.visibility = View.GONE
+        sayiInput.visibility     = View.GONE
     }
 
     private fun showTime() {
@@ -208,13 +219,14 @@ class MainActivity : ComponentActivity() {
         sayiButton     = findViewById<Button>(R.id.button2)
         sayiNextButton = findViewById<Button>(R.id.sayiNextButton)
         kartNextButton = findViewById<Button>(R.id.kartNextButton)
+        sayiEndButton  = findViewById<Button>(R.id.finishButton)
         endTimeText    = findViewById<TextView>(R.id.endTimeText)
         totalCorText   = findViewById<TextView>(R.id.totalCorrectText)
         corSizeText    = findViewById<TextView>(R.id.totalSizeText)
         timeInput      = findViewById<EditText>(R.id.timeInput)
+        sayiInput      = findViewById<EditText>(R.id.sayiAnswer)
         endTimeText    = findViewById<TextView>(R.id.endTimeText)
         gridLayout     = findViewById<GridLayout>(R.id.GridLayout)
-
 
         endTimeText.visibility    = View.GONE
         gridLayout.visibility     = View.GONE
@@ -222,6 +234,8 @@ class MainActivity : ComponentActivity() {
         totalCorText.visibility   = View.GONE
         sayiNextButton.visibility = View.GONE
         corSizeText.visibility    = View.GONE
+        sayiEndButton.visibility  = View.GONE
+        sayiInput.visibility      = View.GONE
     }
 }
 

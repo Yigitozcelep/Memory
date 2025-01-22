@@ -18,11 +18,11 @@
         android:layout_height="wrap_content"
         android:text="Sayi ezberleme" />
 
-    <Button
-        android:id="@+id/finishButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Finish" />
+    <EditText
+        android:id="@+id/timeInput"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:hint="Minute"/>
 
     <TextView
         android:id="@+id/endTimeText"
@@ -33,7 +33,15 @@
         android:layout_marginBottom="24dp" />
 
     <TextView
-        android:id="@+id/totalWrongText"
+        android:id="@+id/totalCorrectText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Press Start to begin timer"
+        android:textSize="18sp"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/totalSizeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press Start to begin timer"
@@ -47,9 +55,15 @@
         android:layout_height="48dp"
         android:text="Next" />
 
+    <Button
+        android:id="@+id/sayiNextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Next" />
+
 
     <GridLayout
-        android:id="@+id/cardGridLayout"
+        android:id="@+id/GridLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnCount="6"

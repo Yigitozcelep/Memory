@@ -64,18 +64,22 @@ class MainActivity : ComponentActivity() {
             kartNextButton.visibility = View.GONE
             showOrderCardsPage()
         }
+        sayiNextButton.setOnClickListener { showNumbers() }
     }
-    fun generateRandomStrings(): List<String> {
+    private fun generateRandomStrings(): List<String> {
         return List(52) {
             (1..3).map { ('0'..'9').random() }.joinToString("")
         }
     }
 
     private fun showNumbers() {
+        gridLayout.removeAllViews()
         val numbers = generateRandomStrings()
         for (number in numbers) {
+            expectedAnswer.add(number)
             val textView = TextView(this).apply {
                 textSize = 22f
+                text = number
                 setPadding(16, 16, 16, 16)
                 setBackgroundResource(android.R.color.darker_gray)
                 layoutParams = GridLayout.LayoutParams().apply {
@@ -88,18 +92,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
     private fun showSayiPage() {
         val minute = timeInput.text.toString().toIntOrNull() ?: return
         performCommonsOfPages()
         sayiNextButton.visibility = View.VISIBLE
-        
+        showNumbers()
         handler.postDelayed({
 
 
         }, (minute * 60 * 1000).toLong())
-
-
-
     }
 
     private fun performCommonsOfPages() {
